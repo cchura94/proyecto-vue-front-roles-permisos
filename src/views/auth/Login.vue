@@ -19,8 +19,10 @@
 <script setup>
 import { ref } from 'vue'
 import authService from "./../../service/AuthService"
+import { useRouter } from 'vue-router'
 
 // const titulo = ref('Hola Mundo con Composition API 2');
+const router = useRouter()
 const usuario = ref({email: "", password: ""})
 const errores = ref({})
 
@@ -30,7 +32,12 @@ const funIngresar = async (e) => {
     try {
         const {data} = await authService.login(usuario.value)
 
-        alert("Bienvenido...")
+        console.log(data);
+        localStorage.setItem("token", data.access_token)
+
+        router.push({name: 'admin'})
+
+        // alert("Bienvenido...")
         
     } catch (error) {
         console.log("ERROR EN COMPONENTE LOGIN", error.response.data)

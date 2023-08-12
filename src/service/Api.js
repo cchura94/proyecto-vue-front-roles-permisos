@@ -3,7 +3,7 @@ import axios from "axios"
 export const urlBase = "http://127.0.0.1:8000/api";
 
 const App = () => {
-    let token = "ABC.XYZ.ASD";
+    let token = localStorage.getItem("token");
 
     const api = axios.create({
         baseURL: urlBase,

@@ -1,7 +1,11 @@
 <template>
   <h1>Layout Base</h1>
 
-   <RouterView />
+  <RouterLink to="/admin">ADMIN</RouterLink> |
+  <RouterLink to="/admin/usuario">USUARIO</RouterLink>
+
+  <RouterView />
+
    
 </template>
 

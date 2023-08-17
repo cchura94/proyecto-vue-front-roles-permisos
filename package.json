@@ -8,6 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@casl/ability": "^6.5.0",
+    "@casl/vue": "^2.2.1",
     "axios": "^1.4.0",
     "pinia": "^2.1.4",
     "vue": "^3.3.4",

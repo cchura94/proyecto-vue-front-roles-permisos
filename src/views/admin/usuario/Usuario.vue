@@ -1,6 +1,7 @@
 <template>
   <h1>Gestion Usuarios</h1>
-
+    {{ $can('index', 'user') }}
+<div v-if="$can('store', 'user')">
     <label for="">Ingresar Nombre:</label>
     <input type="text" v-model="usuario.name">
     <br>
@@ -12,7 +13,9 @@
     <br>
     <button type="button" @click="guardarUsuario()">Guardar Usuario</button>
 
-  <table border="1">
+</div>
+
+  <table border="1" v-if="$can('index', 'user')">
     <thead>
         <tr>
             <th>ID</th>
@@ -29,8 +32,8 @@
             <td>{{ u.email }}</td>
             <td>{{ u.created_at }}</td>
             <td>
-                <button type="button" @click="editarUsuario(u)">editar</button>
-                <button type="button" @click="eliminarUsuario(u)">eliminar</button>
+                <button type="button" @click="editarUsuario(u)" v-if="$can('update', 'user')">editar</button>
+                <button type="button" @click="eliminarUsuario(u)" v-if="$can('delete', 'user')">eliminar</button>
             </td>
         </tr>
     </tbody>
@@ -42,6 +45,11 @@
 import { ref, onMounted } from "vue"
 import UsuarioService from "./../../../service/UsuarioService.js";
 import usuarioService from "./../../../service/UsuarioService.js"
+
+// import ability from "../../../casl/ability"
+
+//import { useAbility } from '@casl/vue';
+//const { can } = useAbility();
 
 // declaracion de variables o estados
 const usuarios = ref([]) 

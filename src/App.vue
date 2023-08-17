@@ -17,6 +17,8 @@ import HelloWorld from './components/HelloWorld.vue'
       </nav>
     </div>
   </header-->
-
+  <RouterLink to="/">INICIO</RouterLink> |
+  <RouterLink to="/login">INGRESAR</RouterLink>
   <RouterView />
+
 </template>

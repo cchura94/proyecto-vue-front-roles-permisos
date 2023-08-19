@@ -52,9 +52,20 @@ const router = createRouter({
           name: 'usuario',
           component: () => import('../views/admin/usuario/Usuario.vue'),
           meta: { requireAuth: true},
+        },
+        {
+          path: 'role',
+          name: 'role',
+          component: () => import('../views/admin/role/Role.vue'),
+          meta: { requireAuth: true},
         }
       ]
     },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: () => import('../views/errors/NotFound.vue'),
+    }
   ]
 })
 

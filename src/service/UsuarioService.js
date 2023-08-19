@@ -1,8 +1,8 @@
 import Api from "./Api"
 
 export default {
-    listar(){
-        return Api().get("/users");
+    listar(q=''){
+        return Api().get("/users?q="+q);
     },
     guardar(datos){
         return Api().post("/users", datos);

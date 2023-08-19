@@ -10,7 +10,8 @@ const App = () => {
         headers: {
             Accept: 'application/json',
             Authorization: 'Bearer '+token
-        }
+        },
+        timeout: 30000
     });
 
     // error
@@ -21,6 +22,8 @@ const App = () => {
         (error) => {
             if(error.response.status === 401){
                 console.log("INTERCEPTOR:  401 *******")
+                localStorage.removeItem("token")
+                window.location.href = "/login"
             }
             if(error.response.status === 403){
                 console.log("INTERCEPTOR:  403 *******")

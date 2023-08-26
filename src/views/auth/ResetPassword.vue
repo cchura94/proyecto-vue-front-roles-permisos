@@ -49,12 +49,15 @@
       inputClass="w-full"
       :inputStyle="{ padding: '1rem' }"
     ></Password>
+
+    <button @click="funGuardarCambios()">Guardar y Cambiar Contraseña</button>
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import AuthService from "../../service/AuthService";
 
 const route = useRoute();
 
@@ -63,4 +66,11 @@ const datos = ref({ token: "" });
 onMounted(() => {
   datos.value.token = route.query.token;
 });
+
+const funGuardarCambios = async () => {
+  const {data} = await AuthService.resetPassword(datos.value)
+  console.log(data)
+  alert("Contraseña actualizada")
+
+}
 </script>

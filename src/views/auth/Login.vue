@@ -39,7 +39,7 @@
                                 <Checkbox v-model="checked" id="rememberme1" binary class="mr-2"></Checkbox>
                                 <label for="rememberme1">Remember me</label>
                             </div>
-                            <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">Forgot password?</a>
+                            <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)" @click="router.push('/recuperar-password')" >¿Has olvidado tu contraseña?</a>
                         </div>
                         <Button type="submit" label="Ingresar" class="w-full p-3 text-xl"></Button>
                     </form>
@@ -80,6 +80,9 @@ const funIngresar = async (e) => {
         const {data} = await authService.login(usuario.value)
 
         console.log(data);
+
+        data.user.permisos.push({action: 'show', subject: 'auth'})
+
         localStorage.setItem("token", data.access_token)
         localStorage.setItem("permisos", JSON.stringify(data.user.permisos))
 

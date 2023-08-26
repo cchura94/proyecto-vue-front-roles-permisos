@@ -12,5 +12,11 @@ export default {
     },
     logout: () => {
         return Api().post("/v1/auth/logout");
-    }    
+    },
+    recuperarPassword: (datos) => {
+        return Api().post("/reset-password", datos);
+    },
+    resetPassword: (datos) => {
+        return Api().post("/cambio-password", datos);
+    }
 }

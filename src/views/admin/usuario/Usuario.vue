@@ -1,9 +1,10 @@
 <template>
-  <div class="card">
+  <div class="card" v-if="$can('index', 'user')">
     <h1>Gestion Usuarios</h1>
     
 
     <Button
+      v-if="$can('store', 'user')"
       label="Gestión Usuarios"
       icon="pi pi-external-link"
       @click="visible = true"
@@ -27,11 +28,13 @@
       <Column headerStyle="min-width:10rem;">
         <template #body="slotProps">
           <Button
+            v-if="$can('update', 'user')"
             icon="pi pi-pencil"
             class="p-button-rounded p-button-success mr-2"
             @click="editarUsuario(slotProps.data)"
           />
           <Button
+            v-if="$can('delete', 'user')"
             icon="pi pi-trash"
             class="p-button-rounded p-button-warning mt-2"
             @click="confirmDeleteProduct(slotProps.data)"
@@ -77,6 +80,9 @@
       </tbody>
     </table>
     -->
+  </div>
+  <div v-else>
+    <h1>No tienes permiso para ver esta página</h1>
   </div>
 
   <Dialog

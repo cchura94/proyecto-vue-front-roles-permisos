@@ -10,7 +10,8 @@ export default {
     mostrar(id){
         return Api().get(`/users/${id}`);
     },
-    modificar(id, datos){
+    modificar(id, datos, roles){
+        datos.roles = roles
         return Api().put(`/users/${id}`, datos);
     },
     eliminar(id){

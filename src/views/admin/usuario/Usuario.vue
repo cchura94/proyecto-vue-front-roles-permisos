@@ -1,8 +1,6 @@
 <template>
   <div class="card" v-if="$can('index', 'user')">
     <h1>Gestion Usuarios</h1>
-    
-
     <Button
       v-if="$can('store', 'user')"
       label="Gestión Usuarios"
@@ -43,7 +41,7 @@
       </Column>
     </DataTable>
 
-<!--
+    <!--
     <table border="1" v-if="$can('index', 'user')">
       <thead>
         <tr>
@@ -103,7 +101,7 @@
         />
       </div>
       <br />
-      
+
       <div class="field">
         <label for="email">Ingresar Correo:</label>
         <InputText
@@ -123,6 +121,15 @@
           autofocus
         />
       </div>
+
+      <br />
+      <div class="field">
+
+        <MultiSelect v-model="selectedRol" display="chip" :options="roles" optionLabel="nombre" placeholder="Seleccionar Rol"
+    :maxSelectedLabels="5" class="w-full md:w-20rem" />
+
+      </div>
+
       <br />
       <button type="button" @click="guardarUsuario()">Guardar Usuario</button>
     </div>
@@ -134,9 +141,12 @@
 import { ref, onMounted } from "vue";
 import UsuarioService from "./../../../service/UsuarioService.js";
 import usuarioService from "./../../../service/UsuarioService.js";
+import roleService from "./../../../service/RoleService.js";
 
 const visible = ref(false);
 const q = ref("");
+const roles = ref([]);
+const selectedRol = ref([])
 
 // import ability from "../../../casl/ability"
 
@@ -150,6 +160,7 @@ const usuario = ref({ name: "", email: "", password: "" });
 // ciclo de vida de un componente
 onMounted(() => {
   getUsuarios();
+  getRoles();
 });
 // metodos o funciones
 const getUsuarios = async () => {
@@ -157,20 +168,31 @@ const getUsuarios = async () => {
   usuarios.value = data.data;
 };
 
+const getRoles = async () => {
+  const { data } = await roleService.listar();
+  roles.value = data;
+};
+
 const guardarUsuario = async () => {
   if (usuario.value.id) {
-    await usuarioService.modificar(usuario.value.id, usuario.value);
+    await usuarioService.modificar(usuario.value.id, usuario.value, selectedRol.value );
   } else {
     await usuarioService.guardar(usuario.value);
   }
   usuario.value = { name: "", email: "", password: "" };
-  visible.value=false
+  visible.value = false;
   getUsuarios();
 };
 
 const editarUsuario = (us) => {
+  selectedRol.value = [];
   usuario.value = us;
   visible.value = true;
+// console.log(JSON.stringify(us.roles[0]))
+  us.roles.forEach(ro => {
+    const {pivot, ...rest} = ro
+    selectedRol.value.push(rest)
+  });
 };
 
 const eliminarUsuario = async (us) => {

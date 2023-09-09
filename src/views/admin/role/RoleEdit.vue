@@ -6,7 +6,7 @@
         <div class="card flex flex-wrap justify-content-center gap-3">
             <div class="flex align-items-center" v-for="permiso in permisos" :key="permiso.id">
                 <Checkbox v-model="seleccionados" :value="permiso.id" />
-                <label class="ml-2"> {{ permiso.nombre }} </label>
+                <label class="ml-2"> {{permiso.detalle}} ({{ permiso.nombre }}) </label>
             </div>
         </div>
         <hr>

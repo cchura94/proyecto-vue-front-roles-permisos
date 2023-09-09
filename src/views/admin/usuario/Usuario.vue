@@ -90,7 +90,7 @@
     :style="{ width: '50vw' }"
     class="p-fluid"
   >
-    <div v-if="$can('store', 'user')">
+    <div v-if="$can('store', 'user') || $can('update', 'user')">
       <div class="field">
         <label for="name">Ingrese Nombre</label>
         <InputText
@@ -123,7 +123,7 @@
       </div>
 
       <br />
-      <div class="field">
+      <div class="field" v-if="$can('index', 'role')">
 
         <MultiSelect v-model="selectedRol" display="chip" :options="roles" optionLabel="nombre" placeholder="Seleccionar Rol"
     :maxSelectedLabels="5" class="w-full md:w-20rem" />

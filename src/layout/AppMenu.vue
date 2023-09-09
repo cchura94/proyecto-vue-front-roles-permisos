@@ -1,23 +1,26 @@
 <script setup>
 import { ref } from 'vue';
+import { useAbility } from '@casl/vue';
+const { can } = useAbility();
 
 import AppMenuItem from './AppMenuItem.vue';
 
 const model = ref([
     {
         label: 'Admin',
-        items: [{ label: 'Administrador', icon: 'pi pi-fw pi-home', to: '/admin' },
-        { label: 'Perfil', icon: 'pi pi-fw pi-home', to: '/admin/perfil' }]
+        items: [{ label: 'Administrador', icon: 'pi pi-fw pi-home', to: '/admin', visible: can('index', 'admin') },
+        { label: 'Perfil', icon: 'pi pi-fw pi-home', to: '/admin/perfil', visible: can('index', 'perfil') }]
     },
     {
         label: 'Seguridad Roles y Permisos',
         items: [
-            { label: 'Usuarios', icon: 'pi pi-fw pi-id-card', to: '/admin/usuario' },
-            { label: 'Roles', icon: 'pi pi-fw pi-check-square', to: '/admin/role' },
-            { label: 'Permisos', icon: 'pi pi-fw pi-bookmark', to: '/admin/permiso' },
+            { label: 'Usuarios', icon: 'pi pi-fw pi-id-card', to: '/admin/usuario', visible: can('index', 'user') },
+            { label: 'Roles', icon: 'pi pi-fw pi-check-square', to: '/admin/role', visible: can('index', 'role') },
+            { label: 'Permisos', icon: 'pi pi-fw pi-bookmark', to: '/admin/permiso', visible: can('index', 'permiso') },
             
         ]
     },
+    /*
     {
         label: 'CRUD',
         items: [
@@ -25,6 +28,7 @@ const model = ref([
             { label: 'All Blocks', icon: 'pi pi-fw pi-globe', url: 'https://www.primefaces.org/primeblocks-vue', target: '_blank' }
         ]
     },
+    */
     /*
     {
         label: 'Utilities',

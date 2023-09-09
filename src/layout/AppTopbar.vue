@@ -2,6 +2,8 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useLayout } from '@/layout/composables/layout';
 import { useRouter } from 'vue-router';
+import AuthService from '../service/AuthService';
+
 
 const { layoutConfig, onMenuToggle } = useLayout();
 
@@ -58,6 +60,14 @@ const isOutsideClicked = (event) => {
 
     return !(sidebarEl.isSameNode(event.target) || sidebarEl.contains(event.target) || topbarEl.isSameNode(event.target) || topbarEl.contains(event.target));
 };
+
+const salir = async () => {
+  localStorage.removeItem("token");
+
+  await AuthService.logout();
+
+  router.push({name: 'Login'})
+}
 </script>
 
 <template>
@@ -84,9 +94,9 @@ const isOutsideClicked = (event) => {
                 <i class="pi pi-user"></i>
                 <span>Profile</span>
             </button>
-            <button @click="onSettingsClick()" class="p-link layout-topbar-button">
-                <i class="pi pi-cog"></i>
-                <span>Settings</span>
+            <button @click="salir()" class="p-link layout-topbar-button">
+                <i class="pi pi-power-off"></i>
+                <span>Salir</span>
             </button>
         </div>
     </div>

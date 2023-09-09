@@ -44,8 +44,8 @@ const router = createRouter({
           component: Admin,
           meta: {
             requireAuth: true,
-            resource: 'auth',
-            action: 'show'
+            resource: 'admin',
+            action: 'index'
           },
         },
         {
@@ -94,8 +94,8 @@ const router = createRouter({
           component: () => import('../views/admin/role/Permiso.vue'),
           meta: { 
             requireAuth: true,
-            resource: 'auth',
-            action: 'show'
+            resource: 'permiso',
+            action: 'index'
           },
         }
       ]
@@ -104,11 +104,19 @@ const router = createRouter({
       path: '/recuperar-password',
       name: 'RecuperarPassword',
       component: () => import('../views/auth/RecuperarPassword.vue'),
+      meta: {
+        resource: 'auth',
+        action: 'show'
+      }
     },
     {
       path: '/reset-password',
       name: 'ResetPassword',
       component: () => import('../views/auth/ResetPassword.vue'),
+      meta: {
+        resource: 'auth',
+        action: 'show'
+      }
     },
     {
       path: '/no-autorizado',

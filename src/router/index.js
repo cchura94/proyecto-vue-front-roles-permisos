@@ -7,13 +7,19 @@ import AppLayout from "../layout/AppLayout.vue"
 import Inicio from "../views/Inicio.vue"
 import { canNavigate } from '../casl/routeProtection'
 
+import { getUserData, redireccionPorRol } from './../casl/utils'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       name: 'inicio',
-      component: Inicio
+      component: Inicio,
+      meta: {
+        resource: 'auth',
+        action: 'show'
+      }
     },
     {
       path: '/about',
@@ -36,7 +42,11 @@ const router = createRouter({
     {
       path: '/admin',
       component: AppLayout,
-      meta: { requireAuth: true},
+      meta: { 
+        requireAuth: true,
+        resource: 'admin',
+        action: 'index'
+      },
       children: [
         {
           path: '',
@@ -123,7 +133,8 @@ const router = createRouter({
       name: 'NoAutorizado',
       component: () => import('../views/errors/NoAutorizado.vue'),
       meta: {
-        resource: 'auth'
+        resource: 'auth',
+        action: 'show'
       }
     },
     {
@@ -133,7 +144,7 @@ const router = createRouter({
     }
   ]
 })
-
+/*
 router.beforeEach((to, from, next) => {
   let token = localStorage.getItem("token")
 
@@ -150,14 +161,50 @@ router.beforeEach((to, from, next) => {
   if(to.meta.requireAuth) {
     if(!token)
       return next({name: 'Login'});
-    return next()
+
+      // obtener datos usuario
+    const userData = getUserData()
+    console.log(userData.roles[0].nombre)
+    // redireccionar dependiendo del rol
+    return next(redireccionPorRol(userData?userData.roles[0].nombre:null))
+    // return next() // DEJA PASAR
   }
 
+  // redireccionar si ya esta autenticado
   if(to.meta.redirectIfAuth && token){
-    return next({name: 'admin'})
+    // obtener datos usuario
+    const userData = getUserData()
+    console.log(userData.roles[0].nombre)
+    // redireccionar dependiendo del rol
+    return next(redireccionPorRol(userData?userData.roles[0].nombre:null))
+    // return next({name: 'admin'})
   }
 
   return next();
 
 })
+*/
+
+router.beforeEach((to, from, next) => {
+  let token = localStorage.getItem("token")
+
+  console.log(to)
+
+  if(!canNavigate(to)){
+    console.log("NO TENGO PERMISOS");
+    if(!token){
+      return next({name: 'Login'})
+    }
+    // si NO tengo permisos
+    return next({name: 'NoAutorizado'});
+  }
+
+  if(to.meta.redirectIfAuth && token){
+    const userData = getUserData();
+    console.log(userData.roles[0].nombre);
+    return next(redireccionPorRol(userData?userData.roles[0].nombre:null))
+  }
+  return next();
+
+});
 export default router

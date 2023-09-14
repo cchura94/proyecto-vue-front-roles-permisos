@@ -63,6 +63,8 @@ const isOutsideClicked = (event) => {
 
 const salir = async () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("permisos");
+  localStorage.removeItem("userData");
 
   await AuthService.logout();
 

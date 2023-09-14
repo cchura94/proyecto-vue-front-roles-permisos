@@ -60,6 +60,8 @@ import ability from "../../casl/ability"
 
 import AppConfig from '@/layout/AppConfig.vue';
 
+import { getUserData, redireccionPorRol } from './../../casl/utils'
+
 const { layoutConfig } = useLayout();
 
 const checked = ref(false);
@@ -85,6 +87,7 @@ const funIngresar = async (e) => {
 
         localStorage.setItem("token", data.access_token)
         localStorage.setItem("permisos", JSON.stringify(data.user.permisos))
+        localStorage.setItem("userData", JSON.stringify(data.user))
 
 // controlar el tiempo de expiracion de token desde el front (cookies)
 // recuperar contraseña via correo
@@ -92,12 +95,13 @@ const funIngresar = async (e) => {
 
         ability.update(data.user.permisos)
 
-        router.push({name: 'admin'})
+        // const userData = getUserData();
+        router.push(redireccionPorRol(data.user?data.user.roles[0].nombre:null))
 
         // alert("Bienvenido...")
         
     } catch (error) {
-        console.log("ERROR EN COMPONENTE LOGIN", error.response.data)
+        console.log("ERROR EN COMPONENTE LOGIN", error)
         if(error.response.data.errors){
             errores.value = error.response.data.errors
         }else{

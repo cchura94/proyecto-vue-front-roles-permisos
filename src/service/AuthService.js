@@ -18,5 +18,11 @@ export default {
     },
     resetPassword: (datos) => {
         return Api().post("/cambio-password", datos);
-    }
+    },
+    loginConGoogleURL: () => {
+        return Api().get(`/google-auth/redirect`);
+    },
+    /*loginConGoogle: (datos) => {
+        return Api().post(`/google-auth/callback?code=${datos.code}&scope=${datos.scope}&authuser=${datos.authuser}&prompt=${datos.prompt}`)
+    }*/
 }

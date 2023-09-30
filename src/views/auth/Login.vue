@@ -42,6 +42,8 @@
                             <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)" @click="router.push('/recuperar-password')" >¿Has olvidado tu contraseña?</a>
                         </div>
                         <Button type="submit" label="Ingresar" class="w-full p-3 text-xl"></Button>
+                        o
+                        <Button type="button" label="GOOGLE" class="w-full p-3 text-xl" @click="loginGoogle"></Button>
                     </form>
                     </div>
                 </div>
@@ -107,6 +109,13 @@ const funIngresar = async (e) => {
         }else{
             alert(error.response.data.message)
         }
+    }
+}
+
+const loginGoogle = async () => {
+    const {data} = await authService.loginConGoogleURL();
+    if(data.url){
+        window.location.href = data.url;
     }
 }
 

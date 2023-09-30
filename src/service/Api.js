@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export const urlBase = "http://127.0.0.1:8000/api";
+export const urlBase = "http://localhost:8000/api";
 
 const App = () => {
     let token = localStorage.getItem("token");
@@ -20,6 +20,7 @@ const App = () => {
             return response;
         },
         (error) => {
+            console.log(error)
             if(error.response.status === 401){
                 console.log("INTERCEPTOR:  401 *******")
                 localStorage.removeItem("token")

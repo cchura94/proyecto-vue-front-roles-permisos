@@ -129,6 +129,15 @@ const router = createRouter({
       }
     },
     {
+      path: '/google-auth/callback',
+      name: 'Google',
+      component: () => import('../views/auth/Google.vue'),
+      meta: {
+        resource: 'auth',
+        action: 'show'
+      }
+    },
+    {
       path: '/no-autorizado',
       name: 'NoAutorizado',
       component: () => import('../views/errors/NoAutorizado.vue'),
